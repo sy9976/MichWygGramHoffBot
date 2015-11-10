@@ -1,0 +1,451 @@
+ls
+ls
+cat /dev/ttyAMA0
+sudo cat /dev/ttyAMA0
+sudo apt-get -y install gpsd gpsd-clients python-gps
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo cp /boot/cmdline.txt /boot/cmdline_backup.txt
+sudo nano /boot/cmdline.txt 
+
+sudo cp /boot/cmdline_backup.txt /boot/cmdline.txt
+vi /etc/default/gpsd 
+sudo vi /etc/default/gpsd 
+
+
+vi /etc/default/gpsd 
+sudo vi /etc/default/gpsd 
+sudo nano /etc/default/gpsd 
+vi /etc/default/gpsd 
+sudo nano /etc/default/gpsd 
+sudo cp /etc/default/gpsd /etc/default/gpsd_backup
+sudo nano /etc/default/gpsd 
+sudo dpkg-reconfigure gpsd
+sudo reboot
+service gpsd status
+sudo nano /etc/rc.local 
+sudo reboot
+cd /etc/init.d
+ls
+nano raspi-config 
+ls | xargs cat
+ls | xargs cat | grep ttyAMA0
+ls | xargs cat | grep tt
+cd ..
+ls
+cd rc0.d
+ls
+ls | xargs cat | grep tt
+ls | xargs cat | grep tty
+cd ../rc1.d/
+ls | xargs cat | grep tty
+cd ..
+ls
+ls | grep rc
+ls | grep rc | xargs ls
+ls | grep rc | xargs ls | xargs cat
+ls | grep rc | xargs ls | xargs cat | grep tty
+ls | grep rc
+cd rc2.d | ls | xargs cat | grep tty  ; cd ..
+cd rc2.d | ls | xargs cat | grep ttyAMA0  ; cd ..
+ls | grep rc
+ls
+cd /etc
+ls
+ls | grep rc
+cd rc2.d | ls | xargs cat | grep ttyAMA0 
+ls | grep rc
+cd rc3.d | ls | xargs cat | grep ttyAMA0 
+cd rc4.d | ls | xargs cat | grep ttyAMA0 
+ls
+cd rc0.d
+ls | xargs cat | grep ttyAMA0 
+cd ../rc1.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc2.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc3.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc4.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc5.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc6.d/
+ls | xargs cat | grep ttyAMA0 
+cd ..
+ls
+cd rcS.d
+ls | xargs cat | grep ttyAMA0 
+sudo killall gpsd
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo cat /dev/ttyAMA0 
+ls /var/run/
+sudo ls /etc/init/
+sudo ls /etc/init.d/
+sudo nano /etc/init.d/gpsd
+locate inittab
+find inittab /
+find / inittab
+find / -name "inittab"
+sudo find / -name "inittab"
+sudo nano /boot/cmdline.txt 
+cgps -s
+sudo killall gpsd
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo nano /etc/init.d/gpsd
+sudo nano /etc/init.d/README 
+man inittab
+sudo grep -rl "respawn" /etc/init.d/
+sudo grep -rl "t" /etc/init.d/
+sudo grep -rl "tty" /etc/init.d/
+
+sudo grep -rl "spawn" /etc/init.d/
+sudo reboot
+xgps
+viking
+ls
+cd Desktop/
+ls
+cd robot/
+ls
+python testGPS.py 
+16.949767167
+cd Desktop/
+cd robot/
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+python testGPS.py 
+xgps
+sudo apt-get update
+sudo apt-get install tightvncserver
+sudo dpkg --configure -a
+sudo apt-get install tightvncserver
+sudo apt-get instal xrdp
+sudo apt-get install xrdp
+sudo apt-cache search ucenter
+sudo apt-cache search viking
+sudo apt-get install viking
+sudo apt-get remove viking
+sudo apt-get install viking
+python testGPS.py 
+sudo apt-get install --no-install-recommends bluetooth
+sudo service bluetooth status
+cat /etc/machine-info
+cat /etc/machine-id
+cat /etc/bluetooth/main.conf 
+hcitool dev
+hcitool info
+hcitool -i dev
+ls /var/lib/bluetooth/
+sudo ls /var/lib/bluetooth/
+cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/config
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/config
+sudo cat  
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+hcitool
+hcitool scan
+hcitool dev
+hcitool inq
+hcitool name
+hcitool kamil
+hcitool name kamil
+hcitool name KAMIL
+hcitool --help
+sudo service bluetooth restart
+sudo service bluetooth status
+Sap driver initialization failed.
+hcitool dev
+exit
+lsusb
+/etc/init.d/bluetooth status
+hcitool scan
+hcitool --help
+hcitool cc
+hcitool scan
+hcitool cc --role=s B8:03:05:A2:8E:A5
+sudo hcitool cc --role=s B8:03:05:A2:8E:A5
+hcitool con
+sudo hcitool cc B8:03:05:A2:8E:A5
+hcitool con
+sudo hcitool cc --help
+startx
+cd Desktop/
+cd robot/
+python testGPS.py 
+cd /org
+ls
+cd Desktop/
+ls
+cd robot/
+ls
+vi testBlue.py 
+cd Desktop/robot/
+ls
+vi testBTsocket.py 
+python testBTsocket.py 
+python
+sudo apt-cache search bluetooth
+sudo apt-cache search pybluez
+sudo apt-get install python-bluez 
+python
+cd Desktop/
+cd robot/
+touch testBlue.py
+nano testBlue.py 
+nano testGPS.py 
+python testBlue.py 
+nano testBlue.py 
+python testBlue.py 
+nano testBlue.py 
+python testBlue.py 
+ls /var/lib/bluetooth/
+sudo ls /var/lib/bluetooth/
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/setting
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/setting
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/config
+sudo nano /etc/hostname 
+sudo bluez-test-adapter discoverable on
+hciconfig hci0 piscan
+sudo hciconfig hci0 piscan
+sudo hciconfig hci0 noscan
+sudo hciconfig hci0 piscan
+sudo nano /etc/hostname 
+ls
+cd Desktop/robot/
+ls
+vi testBlue.py 
+sudo hciconfig hci0 piscan
+vi testBTsocket.py 
+python testBTsocket.py 
+python --compact testBTsocket.py 
+python --compat testBTsocket.py 
+python testBTsocket.py --compat
+cd /usr/lib/
+ls
+cd python2.7/
+ls
+cd ..
+cd python3/
+cd ..
+cd python3.4
+cd ..
+sudo apt-get install python bluez
+locate bluez.py
+loc bluez.py
+find bluez.py
+cd ../..
+find bluez.py
+sudo apt-get install pyBluez
+sudo apt-get install pybluez
+sudo apt-get install bluez
+sudo apt-get install bluez python-gobject python-dbus
+ls
+cd home/pi/Desktop/
+ls
+cd robot/
+ls
+python testBTsocket.py 
+cd /usr/lib/python2.7/dist-packages/bluetooth/
+ls
+vi bluez.py
+sudo apt-get install bluez python-bluez
+cd /
+ls
+cd home/pi/Desktop/
+cd robot/
+vi testBTsocket.py 
+nano testBTsocket.py 
+vi testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+python testBTsocket.py 
+sudo python testBTsocket.py 
+cd Desktop/
+cd robot
+ls
+nano testBTsocket.py 
+mkdir testowe
+cd testowe/
+nano findTEST.py
+python findTEST.py 
+nano findTEST.py
+python findTEST.py 
+cd ..
+nano testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+nano aaa.py
+python aaa.py 
+sudo hciconfig hci0 piscan
+nano testBTsocket.py 
+python aaa.py 
+systemctl start bluetooth
+sudo systemctl start bluetooth
+python aaa.py 
+nano testBTsocket.py 
+sudo hciconfig hci0 up
+python aaa.py 
+nano testBTsocket.py 
+python testBT
+python testBTsocket.py 
+nano aaa.py 
+python aaa.py 
+nano aaa.py 
+python aaa.py 
+nano aaa.py 
+python aaa.py 
+nano aaa.py 
+python aaa.py 
+sudo apt-get install bluez
+sudo apt-get install bluez-hcidump
+sudo apt-get install bluez-tools
+python aaa.py 
+sudo find / -name "bluetooth.service"
+sudo nano /lib/systemd/system/bluetooth.service 
+service bluetooth 
+sudo service bluetooth restart 
+sudo systemctl start bluetooth
+
+systemctl bluetooth-reload
+
+sudo nano /lib/systemd/system/bluetooth.service 
+service bluetooth restart
+sudo service bluetooth restart
+systemctl daemon-reload
+sudo systemctl daemon-reload
+cd testowe/
+ls
+cd ..
+nano bbb.py
+python bbb.py 
+hcitool scna
+hcitool scan
+hcitool dev
+lsusb
+hciconfig -a
+hciconfig hci0 up
+sudo hciconfig hci0 up
+hcitool dev
+
+sudo python bbb.py 
+sudo python  testBTsocket.py 
+sudo hciconfig hci0 piscan
+sudo python  testBTsocket.py 
+nano testBTsocket.py 
+exit
+ls
+cd Desktop/
+ls
+cd robot/
+python testBTsocket.py 
+sudo hciconfig hci0 up
+python testBTsocket.py 
+sudo hciconfig hci0 piscan
+python testBTsocket.py 
+sudo systemctl start bluetooth
+python testBTsocket.py 
+hcitool dev
+sudo python testBTsocket.py 
+hcitool scan
+sudo service bluetooth restart
+sudo python testBTsocket.py 
+sudo systemctl start bluetooth
+hcitool dev
+python testBTsocket.py 
+lsusb
+python testBTsocket.py 
+hcitool dev
+hcitool 
+sudo hciconfig hci0 piscan
+python testBTsocket.py 
+sudo hciconfig hci0 up
+hciconfig -a
+sudo systemctl daemon-reload
+python testBTsocket.py 
+sudo nano /lib/systemd/system/bluetooth.service 
+python testBTsocket.py 
+sudo reboot
+ls
+crontab -e
+ls
+cd Desktop/
+ls
+cd robot/
+ls
+cd ..
+ls
+cd robot/
+ls
+touch startup.sh
+chmod +x startup.sh 
+ls
+vim startup.sh 
+cd ..
+cd...
+ls
+cd ..
+ls
+cd Documents/
+lls
+ls
+#!/bin/sh
+git clone https://github.com/vim/vim.git
+cd vim/src/
+ls
+make
+vim
+sudo apt-get install ncourses
+sudo apt-get install vim
+cd ..
+cd Desktop/
+ls
+cd robot/
+ls
+vim bbb.py 
+vim ~/.vimrc
+vim bbb.py 
+vim ~/.vimrc
+ls
+vim startup.sh 
+vim ~/.bashrc 
+cd Desktop/
+ls
+cd robot/
+ls
+vim startup.sh 
+crontab -e
+ls
+reboot
+sudo reboot
+ls
+cd Desktop/
+cd robot/
+ls
+./startup.sh 
+ls
+rm startup.log 
+ls
+cp startup.sh /etc/init.d/rpi_startup.sh
+sudo cp startup.sh /etc/init.d/rpi_startup.sh
+vim /etc/init.d/rpi_startup.sh 
+sudo vim /etc/init.d/rpi_startup.sh 
+sudo reboot
+cd Desktop/
+cd robot/
+nano testBTsocket.py 
+sudo hciconfig hci0 up 
+sudo hciconfig hci0 piscan
+sudo python testBTsocket.py 
