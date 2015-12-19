@@ -27,17 +27,18 @@ def main_thread(client_sock):
             if hasattr(report, 'lat'):
               print "\tszerokosc:\t",report.lat
               gps_data = "szerokosc " + str(report.lat)
-              client_sock.send(gps_data)
+              #client_sock.send(gps_data)
             if hasattr(report, 'lon'):
               print "\tdlugosc:\t",report.lon
               gps_data = "dlugosc " + str(report.lon)
-              client_sock.send(gps_data)
-              break
+              #client_sock.send(gps_data)
+              #break
             if hasattr(report, 'speed'):
               print "\tszybkosc:\t",report.speed
-          #if (hasattr(report, 'lat') and hasattr(report, 'lot')):
-            #gps_data = "szerokosc: " + report.lat + " dlugosc: " + report.lot
-            #client_sock.send(gps_data)
+          if (hasattr(report, 'lat') and hasattr(report, 'lot')):
+            gps_data = "" + report.lat + " " + report.lot
+            client_sock.send(gps_data)
+            break
           #else:
             #client_sock.send("GPS NIE DZIALA, ALE LEGIA MISTRZEM")
       if len(data) == 0: break

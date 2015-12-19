@@ -6,13 +6,6 @@ import gps
 import time
 import RPi.GPIO as GPIO
 
-WHEELS_PIN1 = 16
-WHEELS_PIN2 = 18
-
-WHEELS_FILE1 = '/home/pi/Desktop/MichWygGramHoffBot/log/wheels1_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
-WHEELS_FILE2 = '/home/pi/Desktop/MichWygGramHoffBot/log/wheels2_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
-POINT_FILE = '/home/pi/Desktop/MichWygGramHoffBot/src/points_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
-
 server_sock = None
 lat = 0
 lon = 0
@@ -21,57 +14,13 @@ cTime = None
 session = gps.gps("localhost", "2947")
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(WHEELS_PIN1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(WHEELS_PIN2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-def wheels_thread(pin, filename):
-  prevState = GPIO.input(pin)
-  counter = 0
-  while True:
-    actState = GPIO.input(pin)
-    #if actState:
-    #  print "1"
-    #else:
-    #  print "0"
-    if ((not prevState) and (actState)):
-      time.sleep(3000/1000000.0) #3ms
-      actState = GPIO.input(pin)
-      if (actState):
-        counter += 1
-        print "[1]Liczba zboczy: " + str(counter)
-        fsock = open(filename, 'a')
-        fsock.write(str(counter) + "\n")
-        fsock.close()
-    time.sleep(20000/1000000.0) #20ms
-    prevState = actState
-
-def wheels_thread2():
-  prevState = GPIO.input(WHEELS_PIN2)
-  counter = 0
-  while True:
-    actState = GPIO.input(WHEELS_PIN2)
-    #if actState:
-    #  print "1"
-    #else:
-    #  print "0"
-    if ((not prevState) and (actState)):
-      time.sleep(3000/1000000.0) #3ms
-      actState = GPIO.input(WHEELS_PIN2)
-      if (actState):
-        counter += 1
-        print "[2]Liczba zboczy: " + str(counter)
-        fsock = open(WHEELS_FILE2, 'a')
-        fsock.write(str(counter) + "\n")
-        fsock.close()
-    time.sleep(20000/1000000.0) #20ms
-    prevState = actState
 
 def sigterm_handler(_signo, _stack_frame):
   print "test"
   server_sock.close()
   print "all done"
 
-def gps_thread():
+'''def gps_thread():
   while True:
     report = session.next()
     if report['class'] == 'TPV':
@@ -99,7 +48,7 @@ def gps_thread():
          print "(uzywane: ", satsUsed, ")"
       if hasattr(report, 'hdop'):
          print "\thdop:\t\t", report.hdop
-
+'''
 def main_thread(client_sock):
   try:
     while True:
@@ -126,10 +75,11 @@ def main_thread(client_sock):
 
 print "START"
 signal(SIGTERM, sigterm_handler)
-start_new_thread(gps_thread, ())
-start_new_thread(wheels_thread, (WHEELS_PIN1, WHEELS_FILE1, ))
-start_new_thread(wheels_thread, (WHEELS_PIN2, WHEELS_FILE2, ))
-while True:
+
+f = open('points.txt', 'r')
+print f.readline()
+print f.readline()
+'''while True:
 
   server_sock=BluetoothSocket( RFCOMM )
   server_sock.bind(("",PORT_ANY))
@@ -150,4 +100,4 @@ while True:
   client_sock, client_info = server_sock.accept()
   print "Accepted connection from ", client_info
   start_new_thread(main_thread, (client_sock, ))
-
+'''

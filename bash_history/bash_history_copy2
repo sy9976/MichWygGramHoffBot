@@ -1,0 +1,1620 @@
+ls
+ls
+cat /dev/ttyAMA0
+sudo cat /dev/ttyAMA0
+sudo apt-get -y install gpsd gpsd-clients python-gps
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo cp /boot/cmdline.txt /boot/cmdline_backup.txt
+sudo nano /boot/cmdline.txt 
+
+sudo cp /boot/cmdline_backup.txt /boot/cmdline.txt
+vi /etc/default/gpsd 
+sudo vi /etc/default/gpsd 
+
+
+vi /etc/default/gpsd 
+sudo vi /etc/default/gpsd 
+sudo nano /etc/default/gpsd 
+vi /etc/default/gpsd 
+sudo nano /etc/default/gpsd 
+sudo cp /etc/default/gpsd /etc/default/gpsd_backup
+sudo nano /etc/default/gpsd 
+sudo dpkg-reconfigure gpsd
+sudo reboot
+service gpsd status
+sudo nano /etc/rc.local 
+sudo reboot
+cd /etc/init.d
+ls
+nano raspi-config 
+ls | xargs cat
+ls | xargs cat | grep ttyAMA0
+ls | xargs cat | grep tt
+cd ..
+ls
+cd rc0.d
+ls
+ls | xargs cat | grep tt
+ls | xargs cat | grep tty
+cd ../rc1.d/
+ls | xargs cat | grep tty
+cd ..
+ls
+ls | grep rc
+ls | grep rc | xargs ls
+ls | grep rc | xargs ls | xargs cat
+ls | grep rc | xargs ls | xargs cat | grep tty
+ls | grep rc
+cd rc2.d | ls | xargs cat | grep tty  ; cd ..
+cd rc2.d | ls | xargs cat | grep ttyAMA0  ; cd ..
+ls | grep rc
+ls
+cd /etc
+ls
+ls | grep rc
+cd rc2.d | ls | xargs cat | grep ttyAMA0 
+ls | grep rc
+cd rc3.d | ls | xargs cat | grep ttyAMA0 
+cd rc4.d | ls | xargs cat | grep ttyAMA0 
+ls
+cd rc0.d
+ls | xargs cat | grep ttyAMA0 
+cd ../rc1.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc2.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc3.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc4.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc5.d/
+ls | xargs cat | grep ttyAMA0 
+cd ../rc6.d/
+ls | xargs cat | grep ttyAMA0 
+cd ..
+ls
+cd rcS.d
+ls | xargs cat | grep ttyAMA0 
+sudo killall gpsd
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo cat /dev/ttyAMA0 
+ls /var/run/
+sudo ls /etc/init/
+sudo ls /etc/init.d/
+sudo nano /etc/init.d/gpsd
+locate inittab
+find inittab /
+find / inittab
+find / -name "inittab"
+sudo find / -name "inittab"
+sudo nano /boot/cmdline.txt 
+cgps -s
+sudo killall gpsd
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+sudo nano /etc/init.d/gpsd
+sudo nano /etc/init.d/README 
+man inittab
+sudo grep -rl "respawn" /etc/init.d/
+sudo grep -rl "t" /etc/init.d/
+sudo grep -rl "tty" /etc/init.d/
+
+sudo grep -rl "spawn" /etc/init.d/
+sudo reboot
+xgps
+viking
+ls
+cd Desktop/
+ls
+cd robot/
+ls
+python testGPS.py 
+16.949767167
+cd Desktop/
+cd robot/
+sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+cgps -s
+python testGPS.py 
+xgps
+sudo apt-get update
+sudo apt-get install tightvncserver
+sudo dpkg --configure -a
+sudo apt-get install tightvncserver
+sudo apt-get instal xrdp
+sudo apt-get install xrdp
+sudo apt-cache search ucenter
+sudo apt-cache search viking
+sudo apt-get install viking
+sudo apt-get remove viking
+sudo apt-get install viking
+python testGPS.py 
+sudo apt-get install --no-install-recommends bluetooth
+sudo service bluetooth status
+cat /etc/machine-info
+cat /etc/machine-id
+cat /etc/bluetooth/main.conf 
+hcitool dev
+hcitool info
+hcitool -i dev
+ls /var/lib/bluetooth/
+sudo ls /var/lib/bluetooth/
+cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/config
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/config
+sudo cat  
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+hcitool
+hcitool scan
+hcitool dev
+hcitool inq
+hcitool name
+hcitool kamil
+hcitool name kamil
+hcitool name KAMIL
+hcitool --help
+sudo service bluetooth restart
+sudo service bluetooth status
+Sap driver initialization failed.
+hcitool dev
+exit
+lsusb
+/etc/init.d/bluetooth status
+hcitool scan
+hcitool --help
+hcitool cc
+hcitool scan
+hcitool cc --role=s B8:03:05:A2:8E:A5
+sudo hcitool cc --role=s B8:03:05:A2:8E:A5
+hcitool con
+sudo hcitool cc B8:03:05:A2:8E:A5
+hcitool con
+sudo hcitool cc --help
+startx
+cd Desktop/
+cd robot/
+python testGPS.py 
+cd /org
+ls
+cd Desktop/
+ls
+cd robot/
+ls
+vi testBlue.py 
+cd Desktop/robot/
+ls
+vi testBTsocket.py 
+python testBTsocket.py 
+python
+sudo apt-cache search bluetooth
+sudo apt-cache search pybluez
+sudo apt-get install python-bluez 
+python
+cd Desktop/
+cd robot/
+touch testBlue.py
+nano testBlue.py 
+nano testGPS.py 
+python testBlue.py 
+nano testBlue.py 
+python testBlue.py 
+nano testBlue.py 
+python testBlue.py 
+ls /var/lib/bluetooth/
+sudo ls /var/lib/bluetooth/
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/setting
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/setting
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+sudo ls /var/lib/bluetooth/00:1A:7D:DA:71:0C/settings
+sudo cat /var/lib/bluetooth/00:1A:7D:DA:71:0C/config
+sudo nano /etc/hostname 
+sudo bluez-test-adapter discoverable on
+hciconfig hci0 piscan
+sudo hciconfig hci0 piscan
+sudo hciconfig hci0 noscan
+sudo hciconfig hci0 piscan
+sudo nano /etc/hostname 
+ls
+cd Desktop/robot/
+ls
+vi testBlue.py 
+sudo hciconfig hci0 piscan
+vi testBTsocket.py 
+python testBTsocket.py 
+python --compact testBTsocket.py 
+python --compat testBTsocket.py 
+python testBTsocket.py --compat
+cd /usr/lib/
+ls
+cd python2.7/
+ls
+cd ..
+cd python3/
+cd ..
+cd python3.4
+cd ..
+sudo apt-get install python bluez
+locate bluez.py
+loc bluez.py
+find bluez.py
+cd ../..
+find bluez.py
+sudo apt-get install pyBluez
+sudo apt-get install pybluez
+sudo apt-get install bluez
+sudo apt-get install bluez python-gobject python-dbus
+ls
+cd home/pi/Desktop/
+ls
+cd robot/
+ls
+python testBTsocket.py 
+cd /usr/lib/python2.7/dist-packages/bluetooth/
+ls
+vi bluez.py
+sudo apt-get install bluez python-bluez
+cd /
+ls
+cd home/pi/Desktop/
+cd robot/
+vi testBTsocket.py 
+nano testBTsocket.py 
+vi testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+python testBTsocket.py 
+sudo python testBTsocket.py 
+cd Desktop/
+cd robot
+ls
+nano testBTsocket.py 
+mkdir testowe
+cd testowe/
+nano findTEST.py
+python findTEST.py 
+nano findTEST.py
+python findTEST.py 
+cd ..
+nano testBTsocket.py 
+python testBTsocket.py 
+nano testBTsocket.py 
+nano aaa.py
+python aaa.py 
+sudo hciconfig hci0 piscan
+nano testBTsocket.py 
+python aaa.py 
+systemctl start bluetooth
+sudo systemctl start bluetooth
+python aaa.py 
+nano testBTsocket.py 
+sudo hciconfig hci0 up
+python aaa.py 
+nano testBTsocket.py 
+python testBT
+python testBTsocket.py 
+nano aaa.py 
+python aaa.py 
+nano aaa.py 
+python aaa.py 
+nano aaa.py 
+python aaa.py 
+nano aaa.py 
+python aaa.py 
+sudo apt-get install bluez
+sudo apt-get install bluez-hcidump
+sudo apt-get install bluez-tools
+python aaa.py 
+sudo find / -name "bluetooth.service"
+sudo nano /lib/systemd/system/bluetooth.service 
+service bluetooth 
+sudo service bluetooth restart 
+sudo systemctl start bluetooth
+
+systemctl bluetooth-reload
+
+sudo nano /lib/systemd/system/bluetooth.service 
+service bluetooth restart
+sudo service bluetooth restart
+systemctl daemon-reload
+sudo systemctl daemon-reload
+cd testowe/
+ls
+cd ..
+nano bbb.py
+python bbb.py 
+hcitool scna
+hcitool scan
+hcitool dev
+lsusb
+hciconfig -a
+hciconfig hci0 up
+sudo hciconfig hci0 up
+hcitool dev
+
+sudo python bbb.py 
+sudo python  testBTsocket.py 
+sudo hciconfig hci0 piscan
+sudo python  testBTsocket.py 
+nano testBTsocket.py 
+exit
+ls
+cd Desktop/
+ls
+cd robot/
+python testBTsocket.py 
+sudo hciconfig hci0 up
+python testBTsocket.py 
+sudo hciconfig hci0 piscan
+python testBTsocket.py 
+sudo systemctl start bluetooth
+python testBTsocket.py 
+hcitool dev
+sudo python testBTsocket.py 
+hcitool scan
+sudo service bluetooth restart
+sudo python testBTsocket.py 
+sudo systemctl start bluetooth
+hcitool dev
+python testBTsocket.py 
+lsusb
+python testBTsocket.py 
+hcitool dev
+hcitool 
+sudo hciconfig hci0 piscan
+python testBTsocket.py 
+sudo hciconfig hci0 up
+hciconfig -a
+sudo systemctl daemon-reload
+python testBTsocket.py 
+sudo nano /lib/systemd/system/bluetooth.service 
+python testBTsocket.py 
+sudo reboot
+ls
+crontab -e
+ls
+cd Desktop/
+ls
+cd robot/
+ls
+cd ..
+ls
+cd robot/
+ls
+touch startup.sh
+chmod +x startup.sh 
+ls
+vim startup.sh 
+cd ..
+cd...
+ls
+cd ..
+ls
+cd Documents/
+lls
+ls
+#!/bin/sh
+git clone https://github.com/vim/vim.git
+cd vim/src/
+ls
+make
+vim
+sudo apt-get install ncourses
+sudo apt-get install vim
+cd ..
+cd Desktop/
+ls
+cd robot/
+ls
+vim bbb.py 
+vim ~/.vimrc
+vim bbb.py 
+vim ~/.vimrc
+ls
+vim startup.sh 
+vim ~/.bashrc 
+cd Desktop/
+ls
+cd robot/
+ls
+vim startup.sh 
+crontab -e
+ls
+reboot
+sudo reboot
+ls
+cd Desktop/
+cd robot/
+ls
+./startup.sh 
+ls
+rm startup.log 
+ls
+cp startup.sh /etc/init.d/rpi_startup.sh
+sudo cp startup.sh /etc/init.d/rpi_startup.sh
+vim /etc/init.d/rpi_startup.sh 
+sudo vim /etc/init.d/rpi_startup.sh 
+sudo reboot
+cd Desktop/
+cd robot/
+nano testBTsocket.py 
+sudo hciconfig hci0 up 
+sudo hciconfig hci0 piscan
+sudo python testBTsocket.py 
+ls
+sudo nano /etc/bluetooth/main.conf 
+cd Desktop/robot/
+ls
+python testBTsocket.py 
+sudo python testBTsocket.py 
+ls
+cd Desktop/
+ls
+cd robot/
+ls
+cd testowe/
+python server.py 
+sudo hciconfig hci0 up
+sudo hciconfig hci0 piscan
+python server.py 
+cd ..
+sudo python testBTsocket.py 
+ls
+cd Desktop/robot/
+ls
+./startup.sh
+ls
+vim startup.log 
+vim startup.sh 
+cat ~/.bash_history >> bash_history_copy
+ls
+cd 
+cd ..
+ls
+sudo su
+ls
+sudo reboot
+ls
+cd Desktop/robot/
+ls
+pwd
+cd ..
+ls
+vim /etc/init.d/rpi_startup.sh 
+sudo vim /etc/init.d/rpi_startup.sh 
+sudo apt-get install wireshark
+cd Desktop/robot/
+sudo python testBTsocket.py 
+sudo hciconfig hci0 piscan
+wireshark
+sudo wireshark 
+sudo reboot
+sudo hciconfig hci0 piscan
+cd Desktop/robot/
+sudo python testBTsocket.py 
+wireshark
+sudo wireshark
+ls
+cd Desktop/robot/
+ls
+chmod ugo+x startup.sh 
+ls
+vim startup.sh 
+./startup.sh 
+ls
+vim startup.log 
+rm startup.log 
+ls
+vim bash_history_copy 
+ls
+vim /etc/rc.local 
+cd ..
+./robot/startup.sh 
+cd robot/
+ls
+./startup.sh 
+ls
+rm startup.log 
+ls
+cd ..
+ls
+rm startup.log 
+ls
+sudo crontab -e
+cd robot/
+ls
+vim startup.sh 
+ls -la
+sudo reboot
+cd Desktop/
+cd robot/
+echo "aaaa" > t.txt
+ls
+cat t.txt 
+echo "bbb" >> t.txt
+cat t.txt 
+echo "bbb" >> z.txt
+cat z.txt 
+echo "vvv" >> z.txt
+cat z.txt 
+rm z.txt 
+rm t.txt 
+cd Desktop/robot/
+vi testBTsocket.py 
+cd Desktop/robot/
+ls
+vim startup.log 
+ls
+ls ../
+ls
+vim startup.sh
+vim startup.sh 
+ls
+rm startup.log 
+ls
+sudo rm startup.log 
+ls
+vim startup.sh 
+sudo reboot
+hciconfig hci0 up
+hciconfig hci0 up | grep init
+cd Desktop/robot/
+ls
+vim startup.log 
+hciconfig hci0 up >> tmp.txt
+vim tmp.txt 
+sudo hciconfig hci0 up >> tmp.txt
+vim tmp.txt 
+sudo hciconfig hci0 piscan
+hciconfig hci0 piscan | cat
+vim startup.sh 
+sudo rm startup.log 
+sudo crontab -e
+sudo reboot
+cd Desktop/robot/
+hciconfig hci0 piscan
+sudo hciconfig hci0 piscan
+hciconfig hci0 piscan 2 > tmp.txt
+cat tmp.txt 
+rm tmp.txt 
+hciconfig hci0 piscan 1 > tmp.txt
+cat tmp.txt 
+hciconfig hci0 piscan 2> tmp.txt
+cat tmp.txt 
+hciconfig hci0 piscan 2>> tmp.txt
+cat tmp.txt 
+cat Desktop/robot/startup.log 
+sudo scontab -u root -e
+sudo crontab -u root -e
+vim Desktop/robot/startup.sh
+sudo reboot
+cd Desktop/robot/
+sudo python testBTsocket.py 
+vim Desktop/robot/startup.log 
+rm tmp.txt 
+ls
+cd Desktop/robot/
+ls
+rm tmp.txt 
+ls
+sudo hciconfig
+sudo hciconfig hci0 piscan
+sudo hciconfig
+vim startup.sh 
+sudo reboot
+cd Desktop/robot/
+ls
+ls
+cd Desktop/robot/
+ls
+vim startup.log 
+vim startup.sh 
+./startup.sh 
+sudo ./startup.sh 
+vim startup.log 
+sudo rm startup.log 
+vim startup.sh 
+hciconfig
+./startup.sh 
+ls
+cat startup.log 
+sudo ./startup.sh 
+cat startup.log 
+crontab -e 
+sudo crontab -e 
+vim /etc/init.d/rpi_startup.sh 
+rm /etc/init.d/rpi_startup.sh 
+sudo rm /etc/init.d/rpi_startup.sh 
+ls
+cat startup.log 
+:q
+vim startup.sh 
+sudo reboot
+cd Desktop/robot/
+ls
+vim startup.log 
+vim startup.sh 
+sudo reboot
+cd Desktop/robot/
+nano testBTsocket.py 
+sudo python testBTsocket.py 
+nano testBTsocket.py 
+sudo python testBTsocket.py 
+cd Desktop/robot/
+ls
+vim startup.log 
+hciconfig
+./startup.sh 
+vim startup.sh 
+ls
+vim startup.log 
+sudo crontab -u root -e
+crontab -e
+vim crontab -e
+crontab -e
+sudo crontab -u root -e
+crontab -e
+ls
+sudo reboot
+cd Desktop/robot/
+ls
+vim startup.log 
+sudo reboot
+cd Desktop/
+cd robot/
+ls
+cd testowe/
+ls
+vi server2.py 
+sudo python server2.py 
+vi server2.py 
+sudo python server2.py 
+vi server2.py 
+vim server2.py 
+sudo python server2.py 
+sudo hcitoll hci0 up
+
+sudo hciconfig hci0 up
+
+sudo python server2.py 
+ps aux
+ps aux | server
+ps aux | grep server
+vim server2.py 
+sudo python server2.py 
+cp server2.py server2_kopia.py
+vi server2.py 
+vim server2.py 
+cd Desktop/robot/
+ls
+vim startup.log 
+sudo rm startup.log 
+ls
+./startup.sh 
+ls
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+ls
+vim startup.log 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+ls
+sudo rm startup.log 
+ls
+exit
+cd Desktop/
+cd robot/
+ls
+cd testowe/
+ls
+vim server2.py 
+sudo hciconfig hci0 up
+sudo hciconfig hci0 piscan
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+sudo reboot
+cd Desktop/robot/
+ls
+vim startup.log 
+vim startup.sh 
+vim startup.log 
+username
+USERNAME
+$USERNAME
+echo $USERNAME
+echo $username
+echo $USER
+vim startup.sh 
+./startup.sh 
+ls
+sudo rm startup_pi.log 
+sudo rm startup.log 
+vim startup.sh 
+sudo reboot
+sudo hciconfig hci0 
+su root
+su passwd root
+sudo passwd root
+su root
+hciconfig
+cd Desktop/robot/
+ls
+vim startup_root.log 
+crontab -e
+crontab -u root -e
+sudo crontab -u root -e
+vim startup.sh 
+./startup.sh 
+ls
+rm startup_pi.log 
+sudo rm startup_root.log 
+ls
+sudo reboot
+sudo apt-get install rfkill 
+cd Desktop/robot/
+hciconfig
+ls
+vim startup_root.log 
+vim startup.sh 
+rfkill unblock bluetooth
+sudo reboot
+sudo hciconfig hci0 piscan
+sudo hciconfig hci0 up
+cd Desktop/robot/
+ls
+cd testowe/
+ls
+sudo python server2.py 
+ls
+cd Desktop/
+cd robot/
+ls
+cat startup_root.log 
+sudo hciconfig 
+rfkill unblock bluetooth
+sudo rfkill unblock bluetooth
+sudo hciconfig 
+vim startup.sh 
+sudo reboot
+cd Desktop/robot/
+ls
+vim startup_root.log 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+./startup.sh 
+vim startup.sh 
+ls
+sudo rm startup_pi.log 
+sudo rm startup_root.log 
+ls
+sudo reboot
+cd Desktop/robot/
+ls
+rm aaa.py 
+rm bbb.py 
+ls
+vim startup_root.log 
+hciconfig 
+vim startup.sh 
+vim ~/.vimrc 
+vim startup.sh 
+vim ~/.vimrc 
+vim startup.sh 
+sudo reboot
+cd Desktop/robot/
+cd testowe/
+vim server2.py
+ls -l /dev/disk/by-uuid
+vim server2.py
+ls
+cd Desktop/robot/
+ls
+cd testowe/
+ls
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+vim server2.py 
+sudo python server2.py 
+cd Desktop/robot/
+cd testowe/
+sudo python server2.py 
+ls
+cd Desktop/
+cd robot/
+cd testyModulow/
+vim testGPS.py 
+ls
+cd Desktop/robot/
+ls
+cd testyModulow
+mkdir testyModulow
+mv testGPS.py testyModulow/
+mv testBlue.py testyModulow/
+mv testBTsocket.py testyModulow/
+ls
+cd testowe/
+ls
+cd ..
+mkdir aktualnaWersja
+cd testowe/\
+ls
+cp server2.py ../aktualnaWersja/
+cd ..
+cd aktualnaWersja/
+ls
+mv server2.py server.py
+ls
+cd ..
+cd testowe/
+ls
+vi server2.py 
+hciconfig hci0
+sudo python server2.py 
+vi server2.py 
+sudo python server2.py 
+vi server2.py 
+sudo python server2.py 
+vi server2.py 
+sudo python server2.py 
+vi server2.py 
+sudo python server2.py 
+vi server2.py 
+sudo python server2.py 
+ls
+cd ..
+cd testyModulow/
+ls
+python testGPS.py 
+cd Desktop/robot/
+cd testowe
+ls
+vi server2.py 
+sudo python server2.py 
+vi server2.py 
+ls
+rm .server2.py.swp
+sudo python server2.py
+vi server2.py 
+sudo python server2.py
+ls
+cd Desktop/
+ls
+cd robot/
+cd testyModulow/
+ls
+vi testGPS.py 
+cd Desktop/
+cd robot/
+ls
+cd testowe/
+vi server2.py 
+cd Desktop/
+cd robot/
+ls
+cd testo
+cd testowe/
+ls
+cd ..
+cd testyModulow/
+rm .testGPS.py.swp 
+vi testGPS.py 
+cd ..
+cd testowe
+vim server2.py 
+sudo python server2.py
+cd ..
+cd testyModulow/
+python testGPS.py 
+vim testGPS.py 
+cd ..
+cd testowe/
+vim server2.py 
+sudo python server2.py
+vim server2.ls
+cd Desktop/
+ls
+cd robot/
+ls
+ls test
+ls testowe/
+cd aktualnaWersja/
+ls
+vim server.py 
+cd ../testowe/
+ls
+cd ~/Desktop/
+;s
+ls
+git clone https://github.com/sy9976/MichWygGramHoffBot.git
+ls
+cd robot/
+ls
+cd ..
+ls
+cd MichWygGramHoffBot/
+ls
+mkdir log
+mkdir doc
+mkdir src
+ls
+cd ..
+cd robot/
+ls
+cp startup.sh ../MichWygGramHoffBot/startup.sh
+ls
+mkdir ../MichWygGramHoffBot/tests
+mkdir ../MichWygGramHoffBot/bash_history
+mv bash_history_copy ../MichWygGramHoffBot/bash_history/
+ls
+mv startup_root.log ../MichWygGramHoffBot/log/
+ls
+cd testyModulow/
+ls
+mv ./* ../../MichWygGramHoffBot/tests/
+ls
+cd ..
+ls
+rm -rf testyModulow/
+ls
+rm startup.sh 
+ls testowe/
+cd testowe/
+ls
+cd ..
+ls
+rm -rf aktualnaWersja/
+ls
+cd testowe/
+ls
+cp server2.py ../../MichWygGramHoffBot/src/server.py
+ls
+mv findTEST.py ../../MichWygGramHoffBot/tests/
+ls
+cd ..
+ls
+cd testowe/
+ls
+rm server2_kopia.py 
+mkdir ../../MichWygGramHoffBot/workspace
+mv ./* ../../MichWygGramHoffBot/workspace/
+ls
+cd ..
+ls
+rm -rf testowe/
+ls
+cd ..
+ls
+rm -rf robot/
+ls
+cd MichWygGramHoffBot/
+ls
+ls src/
+git status
+git add -A
+git commit -m "Initial commit"
+ls
+git config --global user.email "sy9976@gmail.com"
+git config --global user.name "sy9976"
+git commit -m "Initial commit"
+git push
+ls
+vim startup.sh 
+ls
+exit
+cd Desktop/robot/
+ls
+cd test
+cd testowe/
+ls
+python server2.py
+sudo python server2.py
+hciconfig hci0
+cd Desktop/
+cd robot/
+ls
+cd testowe
+ls
+sudo python server2.py 
+ls
+cd..
+cd ..
+cd /
+cd 
+ćd Desktop/MichWygGramHoffBot/
+cd Desktop/MichWygGramHoffBot/
+ls
+cd src
+vim server.py 
+sudo python server.py 
+ps aux | grep server
+cd Desktop/MichWygGramHoffBot/
+cd src
+sudo python server.py 
+vim server.py 
+sudo python server.py 
+vim server.py 
+sudo python server.py 
+vim server.py 
+cd ..
+ls
+cd workspace/
+cp server2.py server3.py
+vim server3.py 
+cd ..
+cd src/
+vim server.py 
+cd ..
+exit
+ls
+cd DesktopM
+cd Desktop/MichWygGramHoffBot/
+ls
+./startup.sh 
+cd src/
+ls
+sudo python server.py 
+ls
+cd Desktop/MichWygGramHoffBot/src/
+sudo python server.py 
+cd Desktop/MichWygGramHoffBot/
+ls
+./startup.sh 
+ls
+cd src/
+sudo python server.py 
+ps aux
+ps aux | grep python
+cd Desktop/MichWygGramHoffBot/
+ls
+cd src/
+sudo python server.py 
+cd ../..
+touch consoleoutput.txt
+ls -l 
+la
+ls -a 
+lu
+le
+li
+ln
+lm
+lx
+ld
+lo
+ls
+ll
+ls -la
+sudo crontab -e
+ls
+sudo crontab -e
+cd ~/Desktop/MichWygGramHoffBot/
+ls
+vim startup.sh 
+ls
+ls log/
+rm log/*
+ls
+cd log/
+ls
+rm startup_root.log 
+sudo rm startup_root.log 
+ls
+cd ..
+ls
+reboot
+ls
+cd ~/Desktop/MichWygGramHoffBot/
+ls
+ls log/
+hciconfig
+date
+date +"%T %d-%m-%Y" 
+date +"%T %d-%m-%Y" date +"%T %d-%m-%Y"
+vim startup.sh 
+vim log/startup_root.log 
+vim startup.sh 
+ls
+ls src/
+vim startup.sh 
+vim src/server.py 
+reboot
+sudo reboot
+hciconfig
+cd ~/Desktop/MichWygGramHoffBot/
+ls
+cd log/
+ls
+ps aux |grep server
+ls
+vim server_root.log 
+vim startup_root.log 
+cd ..
+vim startup.sh 
+sudo reboot
+ls
+ps aux |grep server
+htop
+sudo apt-get install htop
+ls
+cd ~/Desktop/MichWygGramHoffBot/
+ls
+vim log/server_root.log 
+htop
+vim log/server_root.log 
+ls
+python /home/pi/Desktop/MichWygGramHoffBot/src/server.py 1>>testlog
+htop
+kill -9 952
+sudo kill -9 952
+htop
+python /home/pi/Desktop/MichWygGramHoffBot/src/server.py 1>>testlog
+sudo python /home/pi/Desktop/MichWygGramHoffBot/src/server.py 1>>testlog
+ls
+vim testlog 
+rm testlog 
+ls
+vim startup.sh 
+./startup.sh 
+ls
+cd log/
+ls
+rm startup_
+rm *
+sudo rm *
+ls
+cd ..
+ls
+sudo reboot
+ls
+htop
+kill -9 951
+sudo kill -9 951
+htop
+sudo kill -9 958
+htop
+cd ~/Desktop/MichWygGramHoffBot/
+ls
+cd log/
+ls
+vim server_root.log 
+l
+ls
+cd ..
+ls
+vim startup.sh 
+sudo reboot
+cd Desktop/MichWygGramHoffBot/
+ls
+sudo python src/server.py >> testKamilaBaraniaka.dupa
+ls
+cat testKamilaBaraniaka.dupa 
+ls
+htop
+cd Desktop/
+ls
+cd MichWygGramHoffBot/
+ls
+vim startup.sh
+vim src/server.py 
+exit
+ls
+gpsd /dev/ttyAMA0 
+cgps
+htop
+sudo htop
+ls
+cd Desktop/
+cd MichWygGramHoffBot/src/
+ls
+sudo python.py
+sudo python server.py
+ls
+cd ..
+cd tests/
+ls
+sudo python testGPS.py 
+cd ..
+cd workspace/
+vim server2.py 
+cp server2.py server3.py
+vim server3.py 
+vim server2.py 
+vim server3.py 
+sudo python server3.py 
+vim ../tests/testGPS.py 
+vim server3.py 
+sudo python server3.py 
+vim server3.py 
+sudo python server3.py 
+cgps
+htop
+sudo htop
+cgps
+cd Desktop/MichWygGramHoffBot/tests
+sudo python testGPS.py 
+cgps
+sudo python testGPS.py 
+cd ..
+cd src/
+sudo python server.py 
+cgps
+cgps | grep Latitude
+cgps
+sud htop
+sudo htop
+sudo htop
+cd Desktop/MichWygGramHoffBot/src/
+sudo python server.py 
+cd ..
+cd test
+cd tests
+sudo python testGPS.py 
+cd ..
+cd  src
+sudo python server.py 
+cgps
+ls
+cd ..
+vim src/server.py 
+cd workspace/
+ls
+vim server3.py 
+sudo python server3.py 
+vim server3.py 
+sudo python server3.py 
+cp server3.py ../src/server.py
+cd ..
+cd src
+ls
+vim server.py 
+sudo python server.py
+vim server.py 
+sudo python server.py
+vim server.py 
+sudo python server.py
+sudo python server.py 1>>test.log
+ls
+cat test.log
+rm test.log 
+sudo python server.py >>test.log
+cat test.log
+rm test.log 
+ls
+cd ..
+ls
+cat testKamilaBaraniaka.dupa 
+rm testKamilaBaraniaka.dupa 
+cd log
+ls
+cat server_root.log 
+rm server_root.log 
+ls
+rm server_root.log 
+ls
+rm startup_root.log 
+ls
+cd ..
+ls
+vim startup.sh 
+ls
+reboot
+                                                                                                                                                                                                                                                                cd Desktop/
+cd src
+cd MichWygGramHoffBot/srv
+cd MichWygGramHoffBot
+cd src
+vim server.py 
+sudo htop
+cd ..
+cd log
+ls
+cat server_root.log 
+rm server_root.log 
+rm startup_root.log 
+ls
+reboot
+cd Desktop/MichWygGramHoffBot/
+cd sr
+cd src
+vim server.py 
+sudo htop
+cd ..
+cd log
+ls
+rm server_root.log 
+rm startup_root.log 
+reboot
+cgps
+ls
+cd Desktop/
+ls
+cd MichWygGramHoffBot/
+ls
+cd tests/
+ls
+touch ngixGPS.py
+vim /boot/cmdline.txt 
+sudo apt-get install gpsd gpsd-clients
+cgps -s
+git clone hhtps://github.com/tkrajina/gpxpy.git
+git clone https://github.com/tkrajina/gpxpy.git
+ls
+cd gxpy
+cd gpxpy/
+ls
+sudo python setup.py build
+sudo python setup.py install
+sudo reboot
+cd Desktop/MichWygGramHoffBot/
+ls
+cd src/
+ls
+sudo python server.py 
+cgps
+cd Desktop/MichWygGramHoffBot/tests/
+ls
+cp PWMtest.py PWM2test.py
+vim PWM2test.py 
+cd ..
+ls
+cd workspace/
+ls
+cd ..
+mv tests/PWM2test.py workspace/
+cd workspace/
+ls
+mv PWM2test.py PWMtest.py
+mv PWMtest.py PWM.py
+vim PWM.py 
+vim server3.py 
+vim PWM.py 
+vim server3.py 
+vim PWM.py 
+vim server3.py 
+vim PWM.py 
+python PWM.py 
+vim PWM.py 
+python PWM.py 
+vim PWM.py 
+python PWM.py 
+vim PWM.py 
+python PWM.py 
+vim PWM.py 
+python PWM.py 
+vim PWM.py 
+python PWM.py 
+vim PWM.py 
+python PWM.py 
+vim PWM.py 
+python PWM.py 
+
+python PWM.py 
+exit
+cd Desktop/MichWygGramHoffBot/tests/
+ls
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+vim PWMtest.py 
+python PWMtest.py 
+sudo apt-cache search sensors
+sudo apt-cache search lm_sensors
+cat /sys/class/thermal/thermal_zone0/temp 
+htop
+exit
+/opt/vc/bin/vcgencmd measure_temp
+cd Desktop/MichWygGramHoffBot/
+cd log
+ls
+cat server_root_2015-12-15\ 10\:17.log 
+ls
+cd ..
+ls
+cd log
+cat startup_root_2015-12-15\ 10\:17.log 
+cd ..
+ls
+cd src
+ls
+cd ..
+ls
+cp workspace/server3.py src/server.py 
+ls
+cd src
+ls
+vim server.py 
+sudo reboot
+cd Desktop/MichWygGramHoffBot/
+cd src
+ls
+cd ..
+ls
+locate startup.sh 
+find / -name "startup.sh"
+sudo find / -name "points.txt"
+cat /root/points.txt
+sudo cat /root/points.txt
+sudo htop 
+sudo cat /root/points.txt
+sudo rm /root/points.txt
+cd src
+vim server.py 
+reboot
+cd Desktop/MichWygGramHoffBot/src/
+ls
+cat points.txt 
+cd ..
+cd log
+ls
+cat server_root_2015-12-15\ 11\:31.log 
+ls
+cat server_root_2015-12-15\ 11\:31.log 
+cd ..
+cd src
+ls
+cat points.txt 
+vim server.py 
+cd ..
+cd log
+cat server_root_2015-12-15\ 11\:31.log 
+cgps
+cd Desktop/MichWygGramHoffBot/tests/
+python ReadINPin.py
+ls
+cd Desktop/
+ls
+cd MichWygGramHoffBot/
+ld
+ls
+cd src/
+ls
+vim diagram.py 
+python diagram.py 
+sudo apt-cache search pylab
+sudo apt-get install python-matplotlib
+sudo restart
+sudo reboot
+ls
+cd Desktop/MichWygGramHoffBot/src/
+ls
+cat points.txt 
+cd ..
+cd log
+ls
+cat points_root_2015-12-16\ 11\:56.log 
+htop 
+cat points_root_2015-12-16\ 11\:56.log 
+cd ..
+cd src
+ls
+vim ReadINPin.py 
+cd ..
+vim startup.sh 
+cd src
+ls
+python ReadINPin.py 
+cd ..
+cd log
+ls
+cat points_root_2015-12-16\ 11\:56.log 
+rm points_root_2015-12-16\ 11\:56.log 
+rm server_root_2015-12-16\ 11\:56.log 
+rm startup_root_2015-12-16\ 11\:56.log 
+reboot
+                                                                                                                                                                                                                                                                                                                                                                                                                                           sudo raspi-config
+sudo nano /etc/modules
+sudo apt-get install i2c-tools
+sudo apt-get install python-smbus
+cd Desktop/MichWygGramHoffBot/tests
+vim CompasTest.py
+python CompasTest.py 
+vim CompasTest.py
+sudo apt-cache search smbus
+reboot
+                                                                                                                                                                                                                                                                                                                                                                                                           cd Desktop/MichWygGramHoffBot/src/
+python diagram.py 
+vim diagram.py 
+python diagram.py 
+ls
+cd Desktop/MichWygGramHoffBot/src/
+ls
+python diagram.py 
