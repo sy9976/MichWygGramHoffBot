@@ -49,16 +49,18 @@ def sigterm_handler(_signo, _stack_frame):
       if hasattr(report, 'hdop'):
          print "\thdop:\t\t", report.hdop
 '''
-def main_thread(client_sock):
+def main_thread(client_sock, pointsfile):
   try:
     while True:
       data = client_sock.recv(1024)
       if data == "gps":
-        gps_data = "gps " + str(lat) + " " + str(lon) + " " + cTime
+        pointString = pointsfile.readline()
+        pointString2 = pointString.replace("\n", "")
+        gps_data = "gps " + pointString2  + " " + str(cTime)
         client_sock.send(gps_data)
-        fsock = open(POINTS_FILE, 'a')
-        fsock.write("\n" + str(lat) + " " + str(lon))
-        fsock.close()
+        #fsock = open(POINTS_FILE, 'a')
+        #fsock.write("\n" + str(lat) + " " + str(lon))
+        #fsock.close()
       elif data == "start":
         break
         #gps
@@ -77,9 +79,7 @@ print "START"
 signal(SIGTERM, sigterm_handler)
 
 f = open('points.txt', 'r')
-print f.readline()
-print f.readline()
-'''while True:
+while True:
 
   server_sock=BluetoothSocket( RFCOMM )
   server_sock.bind(("",PORT_ANY))
@@ -99,5 +99,5 @@ print f.readline()
 
   client_sock, client_info = server_sock.accept()
   print "Accepted connection from ", client_info
-  start_new_thread(main_thread, (client_sock, ))
-'''
+  start_new_thread(main_thread, (client_sock, f))
+

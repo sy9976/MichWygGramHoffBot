@@ -73,22 +73,18 @@ def wheels_thread(pin, filename, client_sock):
   lastY = 0
   while True:
     actState = GPIO.input(pin)
-    #if actState:
-    #  print "1"
-    #else:
-    #  print "0"
-    if ((not prevState) and (actState)):
-      time.sleep(3000/1000000.0) #3ms
-      actState = GPIO.input(pin)
-      if (actState):
+    if (1):
+      time.sleep(10000/10000.0) #300ms
+      #actState = GPIO.input(pin)
+      if (1):
         counter += 1
         print "[" + str(pin) + "]Liczba zboczy: " + str(counter)
         fsock = open(filename, 'a')
         fsock.write(str(counter) + "\n")
         fsock.close()
         if(pin == WHEELS_PIN1): 
-          x_out = (read_word_2c(3) - 89)* scale
-          y_out = (read_word_2c(7) + 436)* scale
+          x_out = (read_word_2c(3) - 104)* scale #- 115.92
+          y_out = (read_word_2c(7) + 700)* scale #+ 613.64
           z_out = read_word_2c(5) * scale
 
           bearing  = math.atan2(y_out, x_out) 
@@ -102,7 +98,7 @@ def wheels_thread(pin, filename, client_sock):
           client_sock.send("point " + str(x) + " " + str(y))
           lastX = x
           lastY = y
-    time.sleep(20000/1000000.0) #20ms
+    #time.sleep(20000/1000000.0) #20ms
     prevState = actState
 
 ##########################################  INTERRUPT

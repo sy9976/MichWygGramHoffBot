@@ -5,25 +5,18 @@ from signal import *
 import gps
 import time
 import RPi.GPIO as GPIO
-import math
-import smbus
-
-WHEELS_DIAMETER = 1 
 
 WHEELS_PIN1 = 16
 WHEELS_PIN2 = 18
 
 WHEELS_FILE1 = '/home/pi/Desktop/MichWygGramHoffBot/log/wheels1_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
 WHEELS_FILE2 = '/home/pi/Desktop/MichWygGramHoffBot/log/wheels2_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
-POINT_FILE = '/home/pi/Desktop/MichWygGramHoffBot/log/points_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
+POINT_FILE = '/home/pi/Desktop/MichWygGramHoffBot/src/points_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
 
 server_sock = None
 lat = 0
 lon = 0
 cTime = None
-
-bus = None
-compassError = False
 
 session = gps.gps("localhost", "2947")
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
@@ -31,46 +24,9 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(WHEELS_PIN1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(WHEELS_PIN2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-
-########################################## COMPASS
-def read_byte(adr):
-    return bus.read_byte_data(address, adr)
-
-def read_word(adr):
-    high = bus.read_byte_data(address, adr)
-    low = bus.read_byte_data(address, adr+1)
-    val = (high << 8) + low
-    return val
-
-def read_word_2c(adr):
-    val = read_word(adr)
-    if (val >= 0x8000):
-        return -((65535 - val) + 1)
-    else:
-        return val
-
-def write_byte(adr, value):
-    bus.write_byte_data(address, adr, value)
-
-'''def compass_thread:
-  while True:
-    x_out = read_word_2c(3) * scale
-    y_out = read_word_2c(7) * scale
-    z_out = read_word_2c(5) * scale
-
-    bearing  = math.atan2(y_out, x_out) 
-    if (bearing < 0):
-        bearing += 2 * math.pi
-
-    print "Bearing: ", math.degrees(bearing)
-    sleep(0.1)
-'''
-########################################    WHEELS
-def wheels_thread(pin, filename, client_sock):
+def wheels_thread(pin, filename):
   prevState = GPIO.input(pin)
   counter = 0
-  lastX = 0
-  lastY = 0
   while True:
     actState = GPIO.input(pin)
     #if actState:
@@ -82,36 +38,39 @@ def wheels_thread(pin, filename, client_sock):
       actState = GPIO.input(pin)
       if (actState):
         counter += 1
-        print "[" + str(pin) + "]Liczba zboczy: " + str(counter)
+        print "[1]Liczba zboczy: " + str(counter)
         fsock = open(filename, 'a')
         fsock.write(str(counter) + "\n")
         fsock.close()
-        if(pin == WHEELS_PIN1): 
-          x_out = (read_word_2c(3) - 89)* scale
-          y_out = (read_word_2c(7) + 436)* scale
-          z_out = read_word_2c(5) * scale
-
-          bearing  = math.atan2(y_out, x_out) 
-          if (bearing < 0):
-              bearing += 2 * math.pi
-          
-          x = math.sin(bearing) * WHEELS_DIAMETER + lastX
-          y = math.cos(bearing) * WHEELS_DIAMETER + lastY
-          print "Bearing: ", math.degrees(bearing)
-          print "X: " + str(x) + " Y: " + str(y)
-          client_sock.send("point " + str(x) + " " + str(y))
-          lastX = x
-          lastY = y
     time.sleep(20000/1000000.0) #20ms
     prevState = actState
 
-##########################################  INTERRUPT
+def wheels_thread2():
+  prevState = GPIO.input(WHEELS_PIN2)
+  counter = 0
+  while True:
+    actState = GPIO.input(WHEELS_PIN2)
+    #if actState:
+    #  print "1"
+    #else:
+    #  print "0"
+    if ((not prevState) and (actState)):
+      time.sleep(3000/1000000.0) #3ms
+      actState = GPIO.input(WHEELS_PIN2)
+      if (actState):
+        counter += 1
+        print "[2]Liczba zboczy: " + str(counter)
+        fsock = open(WHEELS_FILE2, 'a')
+        fsock.write(str(counter) + "\n")
+        fsock.close()
+    time.sleep(20000/1000000.0) #20ms
+    prevState = actState
+
 def sigterm_handler(_signo, _stack_frame):
   print "test"
   server_sock.close()
   print "all done"
 
-############################################    GPS
 def gps_thread():
   while True:
     report = session.next()
@@ -141,7 +100,6 @@ def gps_thread():
       if hasattr(report, 'hdop'):
          print "\thdop:\t\t", report.hdop
 
-#########################################BLUETOOTH
 def main_thread(client_sock):
   try:
     while True:
@@ -166,27 +124,11 @@ def main_thread(client_sock):
   client_sock.close()
   #server_sock.close()
 
-###########################################MAIN
 print "START"
-
-#####################################   COMPAS
-try:
-  bus = smbus.SMBus(1)
-  address = 0x1e
-
-  write_byte(0, 0b01110000) # Set to 8 samples @ 15Hz
-  write_byte(1, 0b00100000) # 1.3 gain LSb / Gauss 1090 (default)
-  write_byte(2, 0b00000000) # Continuous sampling
-except IOError:
-  print "Blad! Sprawdz podlaczenie magnetometru!"
-  compassError = True
-
-scale = 0.92
-####################################
-
-
 signal(SIGTERM, sigterm_handler)
 start_new_thread(gps_thread, ())
+start_new_thread(wheels_thread, (WHEELS_PIN1, WHEELS_FILE1, ))
+start_new_thread(wheels_thread, (WHEELS_PIN2, WHEELS_FILE2, ))
 while True:
 
   server_sock=BluetoothSocket( RFCOMM )
@@ -208,9 +150,4 @@ while True:
   client_sock, client_info = server_sock.accept()
   print "Accepted connection from ", client_info
   start_new_thread(main_thread, (client_sock, ))
-  if compassError:
-    client_sock.send("Magnetometr jest odlaczony!")
-  else:
-    start_new_thread(wheels_thread, (WHEELS_PIN1, WHEELS_FILE1, client_sock, ))
-    start_new_thread(wheels_thread, (WHEELS_PIN2, WHEELS_FILE2, client_sock, ))
 
