@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-PWM_PIN_M1 = 7 #11
+PWM_PIN_M1 = 7 #7 #11
 DIR_PIN1_M1 = 19 # 10
 DIR_PIN2_M1 = 21 # 9
 
@@ -45,11 +45,11 @@ sleep(1)
 p = GPIO.PWM(PWM_PIN_M1,500)
 
 
-p.start(10)
+p.start(100)
 pause_time = 0.04
 
 #GPIO.cleanup()
-pwm = 10
+pwm = 75
 while True:  
   data = raw_input()
   if data == "end":
@@ -84,14 +84,14 @@ while True:
     print pwm
     p.ChangeDutyCycle(pwm)
   elif data == "j":
-    GPIO.output(DIR_PIN1_M2, True)#  GPIO.output(DIR_PIN2_M1, False)
-    GPIO.output(DIR_PIN2_M2, False)
+    GPIO.output(DIR_PIN1_M1, True)#  GPIO.output(DIR_PIN2_M1, False)
+    GPIO.output(DIR_PIN2_M1, False)
   elif data == "k":
-    GPIO.output(DIR_PIN1_M2, True)#  GPIO.output(DIR_PIN2_M1, False)
-    GPIO.output(DIR_PIN2_M2, True)
+    GPIO.output(DIR_PIN1_M1, True)#  GPIO.output(DIR_PIN2_M1, False)
+    GPIO.output(DIR_PIN2_M1, True)
   elif data == "l":
-    GPIO.output(DIR_PIN1_M2, False)#  GPIO.output(DIR_PIN2_M1, False)
-    GPIO.output(DIR_PIN2_M2, True)
+    GPIO.output(DIR_PIN1_M1, False)#  GPIO.output(DIR_PIN2_M1, False)
+    GPIO.output(DIR_PIN2_M1, True)
 #p.ChangeFrequency(100)
 
 #raw_input()

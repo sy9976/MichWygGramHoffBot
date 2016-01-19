@@ -90,7 +90,7 @@ def wheels_thread(pin, filename, client_sock):
           bearing  = math.atan2(y_out, x_out) 
           if (bearing < 0):
               bearing += 2 * math.pi
-          
+          bearing = 0.0         
           x = math.sin(bearing) * WHEELS_DIAMETER + lastX
           y = math.cos(bearing) * WHEELS_DIAMETER + lastY
           print "Bearing: ", math.degrees(bearing)
@@ -182,7 +182,7 @@ scale = 0.92
 
 
 signal(SIGTERM, sigterm_handler)
-start_new_thread(gps_thread, ())
+#start_new_thread(gps_thread, ())
 while True:
 
   server_sock=BluetoothSocket( RFCOMM )
@@ -208,5 +208,5 @@ while True:
     client_sock.send("Magnetometr jest odlaczony!")
   else:
     start_new_thread(wheels_thread, (WHEELS_PIN1, WHEELS_FILE1, client_sock, ))
-    start_new_thread(wheels_thread, (WHEELS_PIN2, WHEELS_FILE2, client_sock, ))
+   # start_new_thread(wheels_thread, (WHEELS_PIN2, WHEELS_FILE2, client_sock, ))
 

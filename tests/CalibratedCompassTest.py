@@ -32,8 +32,8 @@ write_byte(2, 0b00000000) # Continuous sampling
 
 scale = 0.92
 while True:
-  x_out = read_word_2c(3) * scale - 115.92
-  y_out = read_word_2c(7) * scale + 613.64
+  x_out = (read_word_2c(3) - 55)* scale
+  y_out = (read_word_2c(7) + 908)* scale
   z_out = read_word_2c(5) * scale
 
   bearing  = math.atan2(y_out, x_out) 
