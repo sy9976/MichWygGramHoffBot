@@ -42,7 +42,7 @@ sleep(1)
 #GPIO.output(9, False)
 
 
-p = GPIO.PWM(PWM_PIN_M1,500)
+p = GPIO.PWM(PWM_PIN_M1,100)
 
 
 p.start(100)

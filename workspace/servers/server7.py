@@ -177,7 +177,7 @@ def gyro_thread():
   accum_y = 0.0
   accum_z = 0.0
   while 1:
-    '''gyro_xout = read_word_2c(GYRO_ADDR, 0x43)
+    gyro_xout = read_word_2c(GYRO_ADDR, 0x43)
     gyro_yout = read_word_2c(GYRO_ADDR, 0x45)
     gyro_zout = read_word_2c(GYRO_ADDR, 0x47)
 
@@ -222,7 +222,7 @@ def gyro_thread():
   #  print str(angle_x)+"\t"+  str(angle_y)
     global g_bearing
     global unfiltered_bearing
-    #(g_bearing, unfiltered_bearing) = read_compensated_angle(angle_x, angle_y)'''
+    #(g_bearing, unfiltered_bearing) = read_compensated_angle(angle_x, angle_y)
     global x_off
     global y_off
     #[FIX ME]
@@ -231,11 +231,7 @@ def gyro_thread():
     global pitch
     global roll
     global yaw
-    try:
-      (pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
-    except IOError:
-      print "IOError in gyro thread"
-      pass
+    (pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
     result = "%.2f %.2f %.2f" % (pitch, roll, yaw)
     
     print result
@@ -520,7 +516,7 @@ def main_thread(client_sock, mainMotors):
         global roll
         global yaw
         #client_sock.send("dir" + str(g_bearing) + " " + str(unfiltered_bearing))
-        client_sock.send("dir " + str(math.degrees(pitch)) + " " + str(math.degrees(roll)) + " " + str(math.degrees(yaw)))
+        client_sock.send("dir " + str(pitch) + " " + str(roll) + " " + str(yaw))
       elif data == "off":
         print "disconnected"
         client_sock.send("off ok")
