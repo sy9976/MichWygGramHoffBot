@@ -7,6 +7,12 @@ import time
 import RPi.GPIO as GPIO
 import math
 import smbus
+from datetime import datetime
+from datetime import timedelta
+import sys
+sys.path.append("/home/pi/Desktop/MichWygGramHoffBot/tests/mag_gyro_repo/raspi/i2c-sensors")
+from bitify.python.utils.i2cutils import i2c_raspberry_pi_bus_number
+import bitify.python.sensors.oldimu as imu
 
 
 #--------- variables ----------
@@ -15,14 +21,14 @@ WHEELS_PIN1 = 16
 WHEELS_PIN2 = 18
 WHEELS_FILE1 = '/home/pi/Desktop/MichWygGramHoffBot/log/wheels1_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
 WHEELS_FILE2 = '/home/pi/Desktop/MichWygGramHoffBot/log/wheels2_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
-POINT_FILE = '/home/pi/Desktop/MichWygGramHoffBot/log/points_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
+POINTS_FILE = '/home/pi/Desktop/MichWygGramHoffBot/log/points_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
 
 PWM_PIN_M1 = 7 #11
-DIR_PIN1_M1 = 19 # 10
-DIR_PIN2_M1 = 21 # 9
+DIR_PIN1_M1 = 21 # 10
+DIR_PIN2_M1 = 19 # 9
 #PWM_PIN_M2 = 
-DIR_PIN1_M2 = 13 
-DIR_PIN2_M2 = 15
+DIR_PIN1_M2 = 15 
+DIR_PIN2_M2 = 13
 
 PWM_FREQUENCY = 200
 START_PWM = 75
@@ -31,7 +37,7 @@ PWM_STEP = 5
 server_sock = None
 lat = 0
 lon = 0
-cTime = None
+cTime = "brak"
 bus = None
 compassError = False
 sigterm_flag = False
@@ -43,25 +49,220 @@ calibration = False
 x_off = 0
 y_off = 0
 
-#---------- compass ----------
-def read_byte(adr):
+#---------------------------GLOBAL VARIABLES-------------------------
+last_read_time = 0.0
+last_x_angle = 0.0#Filtered angles
+last_y_angle = 0.0
+
+mag_scale = 0.92
+g_bearing = 0.0
+unfiltered_bearing = 0.0
+pitch = 0.0
+roll = 0.0
+yaw = 0.0
+
+# Power management registers
+power_mgmt_1 = 0x6b
+power_mgmt_2 = 0x6c
+
+#ADDRS
+GYRO_ADDR = 0x68
+MAG_ADDR = 0x1e
+
+def millis():
+  return int(round(time.time()*1000))
+
+def dist(a,b):
+    return math.sqrt((a*a)+(b*b))
+
+def get_y_rotation(x,y,z):
+    radians = math.atan2(x, dist(y,z))
+    return -math.degrees(radians)
+
+def get_x_rotation(x,y,z):
+    radians = math.atan2(y, dist(x,z))
+    return math.degrees(radians)
+
+def read_byte(address, adr):
     return bus.read_byte_data(address, adr)
 
-def read_word(adr):
+def read_word(address, adr):
     high = bus.read_byte_data(address, adr)
     low = bus.read_byte_data(address, adr+1)
     val = (high << 8) + low
     return val
 
-def read_word_2c(adr):
-    val = read_word(adr)
+def read_word_2c(address, adr):
+    val = read_word(address, adr)
     if (val >= 0x8000):
         return -((65535 - val) + 1)
     else:
         return val
 
-def write_byte(adr, value):
+
+def write_byte(address, adr, value):
     bus.write_byte_data(address, adr, value)
+
+#----------------------------SETTERS----------------------------------
+
+def set_last_time(time):
+  global last_read_time 
+  last_read_time= time
+
+def set_last_angles(x, y):
+  global last_x_angle
+  last_x_angle = x
+  global last_y_angle
+  last_y_angle = y
+
+def setup():
+  set_last_time(millis())
+  set_last_angles(0.0, 0.0)
+  
+#---------------------------MAGNET--------------------------------
+
+def read_compensated_angle(pitch, roll):
+  global mag_scale
+  global x_off
+  global y_off
+  mag_x = read_word_2c(MAG_ADDR, 3) * mag_scale - x_off
+  mag_y = read_word_2c(MAG_ADDR, 7) * mag_scale - y_off
+  mag_z = read_word_2c(MAG_ADDR, 5) * mag_scale
+
+  cos_pitch = math.cos(pitch)
+  sin_pitch = math.sin(pitch)
+  
+  cos_roll = math.cos(roll)
+  sin_roll = math.sin(roll)
+
+  Xh = (mag_x * cos_roll) + (mag_z * sin_roll)
+  Yh = (mag_x * sin_pitch * sin_roll) + (mag_y * cos_pitch) - (mag_z * sin_pitch * cos_roll)
+
+  bearing = math.atan2(Yh, Xh)
+  if(bearing < 0):
+    return (bearing + (2 * math.pi), math.atan2(mag_y, mag_x) + (2*math.pi))
+  else:
+    return (bearing, math.atan2(mag_y, mag_x))
+#----------------------------------------------
+
+def gyro_thread():
+  
+  #--------------------------------------------------------------------------
+
+  imu_controller = imu.OLDIMU(bus, 0x68, 0x1e, "OLDIMU")
+
+  #while(1):
+  #  (pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
+  #  result = "%.2f %.2f %.2f" % (pitch, roll, yaw)
+  #  print result
+  #--------------------------------------------------------------------------
+
+
+
+  #bus = smbus.SMBus(1) # or bus = smbus.SMBus(1) for Revision 2 boards
+  global mag_scale
+  #INIT MAG
+  write_byte(MAG_ADDR, 0, 0b01110000)
+  write_byte(MAG_ADDR, 1, 0b00100000)
+  write_byte(MAG_ADDR, 2, 0b00000000)
+
+  #INIT GYRO
+  write_byte(GYRO_ADDR, power_mgmt_1, 0)
+  setup()
+  base_x_gyro = -436.9145
+  base_y_gyro = -426.9437
+  base_z_gyro = -277.1055
+
+  accum_x = 0.0
+  accum_y = 0.0
+  accum_z = 0.0
+  while 1:
+    gyro_xout = read_word_2c(GYRO_ADDR, 0x43)
+    gyro_yout = read_word_2c(GYRO_ADDR, 0x45)
+    gyro_zout = read_word_2c(GYRO_ADDR, 0x47)
+
+    accel_x = read_word_2c(GYRO_ADDR, 0x3b)
+    accel_y = read_word_2c(GYRO_ADDR, 0x3d)
+    accel_z = read_word_2c(GYRO_ADDR, 0x3f)
+
+    t_now = millis()
+    FS_SEL = 131.0
+    
+    gyro_x = (gyro_xout - base_x_gyro)/FS_SEL
+    gyro_y = (gyro_yout - base_y_gyro)/FS_SEL
+    gyro_z = (gyro_zout - base_z_gyro)/FS_SEL
+    
+    #Get angle values fom accelerometer
+    RADIANS_TO_DEGREES = 180/3.14159
+    accel_angle_x = get_x_rotation(accel_x, accel_y, accel_z)
+    accel_angle_y = get_y_rotation(accel_x, accel_y, accel_z)
+
+    #Compute the (filtered) gyro angles
+    dt = (t_now - last_read_time)/1000.0
+
+    tx = gyro_x*dt
+    ty = gyro_y*dt
+
+    if(tx<0.009 and tx>-0.009):
+      tx = 0.0
+    if(ty<0.009 and ty>-0.009):
+      ty = 0.0        
+                                
+    gyro_angle_x = tx + last_x_angle
+    gyro_angle_y = ty + last_y_angle 
+      
+    alpha = 0.96
+    angle_x = alpha*tx + (1.0 - alpha)*accel_angle_x
+    angle_y = alpha*ty + (1.0 - alpha)*accel_angle_y
+
+    set_last_time(t_now)
+    set_last_angles(angle_x, angle_y)
+    
+    #print "X\tY\tZ"
+  #  print str(angle_x)+"\t"+  str(angle_y)
+    global g_bearing
+    global unfiltered_bearing
+    #(g_bearing, unfiltered_bearing) = read_compensated_angle(angle_x, angle_y)
+    global x_off
+    global y_off
+    #[FIX ME]
+    imu_controller.set_compass_offsets(x_off, y_off, 0)
+    #(pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
+    global pitch
+    global roll
+    global yaw
+    (pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
+    result = "%.2f %.2f %.2f" % (pitch, roll, yaw)
+    
+    print result
+    #print g_bearing, unfiltered_bearing
+    time.sleep(0.005)
+
+
+
+
+
+#---------- compass ----------
+#def read_byte(adr):
+#    return bus.read_byte_data(address, adr)
+
+#def read_word(adr):
+#    high = bus.read_byte_data(address, adr)
+#    low = bus.read_byte_data(address, adr+1)
+#    val = (high << 8) + low
+#    return val
+
+#def read_word_2c(adr):
+#    val = read_word(adr)
+#    if (val >= 0x8000):
+#        return -((65535 - val) + 1)
+#    else:
+#        return val
+
+#def write_byte(adr, value):
+#    bus.write_byte_data(address, adr, value)
+#-------------------------------------------------------------
+
 
 def points_thread(client_sock):
   x = 0
@@ -99,9 +300,9 @@ def wheels_thread(pin, filename, client_sock):
         fsock.write(str(counter) + "\n")
         fsock.close()
         if(pin == WHEELS_PIN1): 
-          x_out = read_word_2c(3) - x_off #- 89)* scale
-          y_out = read_word_2c(7) - y_off#+ 436)* scale
-          z_out = read_word_2c(5) * scale
+          x_out = read_word_2c(MAG_ADDR, 3) - x_off #- 89)* scale
+          y_out = read_word_2c(MAG_ADDR, 7) - y_off#+ 436)* scale
+          z_out = read_word_2c(MAG_ADDR, 5) * scale
 
           bearing  = math.atan2(y_out, x_out) 
           if (bearing < 0):
@@ -169,9 +370,12 @@ def magnetometer_thread(client_sock):
   global x_off
   global y_off
   while(calibration):
-    x = read_word_2c(3) * 0.96
-    y = read_word_2c(7) * 0.96
-    z = read_word_2c(5) * 0.96
+    #------------------------------------------------
+    #------------------------------------------------
+
+    x = read_word_2c(MAG_ADDR, 3) * 0.92
+    y = read_word_2c(MAG_ADDR, 7) * 0.92
+    z = read_word_2c(MAG_ADDR, 5) * 0.92
     #print (str(x) + " " +  str(y) + " " + str(z))
   #  print(hmc5883l)
     
@@ -304,6 +508,15 @@ def main_thread(client_sock, mainMotors):
         #global calibration
         calibration = False
         print "calibration off"
+      elif data == "dir": 
+        print "dir"
+        global g_bearing
+        global unfiltered_bearing
+        global pitch
+        global roll
+        global yaw
+        #client_sock.send("dir" + str(g_bearing) + " " + str(unfiltered_bearing))
+        client_sock.send("dir " + str(pitch) + " " + str(roll) + " " + str(yaw))
       elif data == "off":
         print "disconnected"
         client_sock.send("off ok")
@@ -345,17 +558,17 @@ mainMotors.start(START_PWM)
 #--------- compass ---------
 try:
   bus = smbus.SMBus(1)
-  address = 0x1e
-  write_byte(0, 0b01110000) # Set to 8 samples @ 15Hz
-  write_byte(1, 0b00100000) # 1.3 gain LSb / Gauss 1090 (default)
-  write_byte(2, 0b00000000) # Continuous sampling
+  #address = 0x1e
+  write_byte(MAG_ADDR, 0, 0b01110000) # Set to 8 samples @ 15Hz
+  write_byte(MAG_ADDR, 1, 0b00100000) # 1.3 gain LSb / Gauss 1090 (default)
+  write_byte(MAG_ADDR, 2, 0b00000000) # Continuous sampling
 except IOError:
   print "Blad! Sprawdz podlaczenie magnetometru!"
   compassError = True
 
 #signal(SIGINT, sigint_handler)
 start_new_thread(gps_thread, ())
-
+start_new_thread(gyro_thread, ())
 #while True:
 while not sigterm_flag:
   server_sock=BluetoothSocket( RFCOMM )
