@@ -13,10 +13,10 @@ import sys
 sys.path.append("/home/pi/Desktop/MichWygGramHoffBot/tests/mag_gyro_repo/raspi/i2c-sensors")
 from bitify.python.utils.i2cutils import i2c_raspberry_pi_bus_number
 import bitify.python.sensors.oldimu as imu
-
+from shapely.geometry import Polygon
 
 #--------- variables ----------
-WHEELS_DIAMETER = 1 
+WHEELS_PERIMETER = 41
 WHEELS_PIN1 = 16
 WHEELS_PIN2 = 18
 WHEELS_FILE1 = '/home/pi/Desktop/MichWygGramHoffBot/log/wheels1_' + time.strftime("%Y-%m-%d %H:%M") + '.txt'
@@ -48,6 +48,7 @@ currentLevel = 0
 calibration = False
 x_off = 0
 y_off = 0
+points = []
 
 #---------------------------GLOBAL VARIABLES-------------------------
 last_read_time = 0.0
@@ -177,7 +178,7 @@ def gyro_thread():
   accum_y = 0.0
   accum_z = 0.0
   while 1:
-    gyro_xout = read_word_2c(GYRO_ADDR, 0x43)
+    '''gyro_xout = read_word_2c(GYRO_ADDR, 0x43)
     gyro_yout = read_word_2c(GYRO_ADDR, 0x45)
     gyro_zout = read_word_2c(GYRO_ADDR, 0x47)
 
@@ -222,7 +223,7 @@ def gyro_thread():
   #  print str(angle_x)+"\t"+  str(angle_y)
     global g_bearing
     global unfiltered_bearing
-    #(g_bearing, unfiltered_bearing) = read_compensated_angle(angle_x, angle_y)
+    #(g_bearing, unfiltered_bearing) = read_compensated_angle(angle_x, angle_y)'''
     global x_off
     global y_off
     #[FIX ME]
@@ -231,10 +232,14 @@ def gyro_thread():
     global pitch
     global roll
     global yaw
-    (pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
+    try:
+      (pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
+    except IOError:
+      print "IOError in gyro thread"
+      pass
     result = "%.2f %.2f %.2f" % (pitch, roll, yaw)
     
-    print result
+    #print resulta
     #print g_bearing, unfiltered_bearing
     time.sleep(0.005)
 
@@ -308,16 +313,19 @@ def wheels_thread(pin, filename, client_sock):
           if (bearing < 0):
               bearing += 2 * math.pi
           
-          x = math.sin(bearing) * WHEELS_DIAMETER + lastX
-          y = math.cos(bearing) * WHEELS_DIAMETER + lastY
+          x = math.sin(bearing) * WHEELS_PERIMETER + lastX
+          y = math.cos(bearing) * WHEELS_PERIMETER + lastY
           print "Bearing: ", math.degrees(bearing)
           print "X: " + str(x) + " Y: " + str(y)
           if pointsOn:
+            global points
+            points.append((x, y))
             client_sock.send("point " + str(x) + " " + str(y))
           lastX = x
           lastY = y
-    time.sleep(20000/1000000.0) #20ms
+        time.sleep(0.072)#(20000/1000000.0) #20ms
     prevState = actState
+    time.sleep(0.005)
 
 #---------- interrupt ----------
 def sigint_handler(_signo, _stack_frame):
@@ -332,7 +340,8 @@ def sigint_handler(_signo, _stack_frame):
 #---------- gps ----------
 def gps_thread():
   #while True:
-  while not sigterm_flag and connected:
+  while (not sigterm_flag): #and connected):
+    #print "gps thread"
     report = session.next()
     if report['class'] == 'TPV':
       if hasattr(report, 'cTime'):
@@ -508,6 +517,12 @@ def main_thread(client_sock, mainMotors):
         #global calibration
         calibration = False
         print "calibration off"
+      elif data == "area": 
+        global points
+        polygon = Polygon(points)
+        area = polygon.area
+        client_sock.send("area " + str(area))
+        print "area " + str(area)
       elif data == "dir": 
         print "dir"
         global g_bearing
@@ -516,8 +531,10 @@ def main_thread(client_sock, mainMotors):
         global roll
         global yaw
         #client_sock.send("dir" + str(g_bearing) + " " + str(unfiltered_bearing))
-        client_sock.send("dir " + str(pitch) + " " + str(roll) + " " + str(yaw))
+        client_sock.send("dir " + str(math.degrees(pitch)) + " " + str(math.degrees(roll)) + " " + str(math.degrees(yaw)))
       elif data == "off":
+        global pointsOn
+        pointsOn = False
         print "disconnected"
         client_sock.send("off ok")
         #client_sock.close()
@@ -569,6 +586,7 @@ except IOError:
 #signal(SIGINT, sigint_handler)
 start_new_thread(gps_thread, ())
 start_new_thread(gyro_thread, ())
+print "START 2 THREADS"
 #while True:
 while not sigterm_flag:
   server_sock=BluetoothSocket( RFCOMM )

@@ -1,10 +1,13 @@
 #!/usr/bin/python
+import sys
+sys.path.append("/home/pi/Desktop/MichWygGramHoffBot")
 from thread import *
 from bluetooth import *
 from signal import *
 import gps
 import time
 import RPi.GPIO as GPIO
+from lib import thread
 
 WHEELS_PIN1 = 16
 WHEELS_PIN2 = 18
@@ -23,7 +26,7 @@ session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(WHEELS_PIN1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(WHEELS_PIN2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
+'''
 def wheels_thread(pin, filename):
   prevState = GPIO.input(pin)
   counter = 0
@@ -44,7 +47,8 @@ def wheels_thread(pin, filename):
         fsock.close()
     time.sleep(20000/1000000.0) #20ms
     prevState = actState
-
+'''
+'''
 def wheels_thread2():
   prevState = GPIO.input(WHEELS_PIN2)
   counter = 0
@@ -65,7 +69,7 @@ def wheels_thread2():
         fsock.close()
     time.sleep(20000/1000000.0) #20ms
     prevState = actState
-
+'''
 def sigterm_handler(_signo, _stack_frame):
   print "test"
   server_sock.close()

@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 from time import sleep
 from thread import *
-WHEELS_PIN1 = 16
-WHEELS_PIN2 = 16
+WHEELS_PIN1 = 18
+WHEELS_PIN2 = 18
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(WHEELS_PIN1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -47,9 +47,9 @@ while True:
       fsock = open('/home/pi/Desktop/MichWygGramHoffBot/log/wheels2.txt', 'a')
       fsock.write(str(counter) + "\n")
       fsock.close()
-  sleep(20000/1000000.0) #50ms
+      sleep(0.072)#sleep(20000/1000000.0) #50ms
   prevState = actState
-
+sleep(0.005)
 
 
 
