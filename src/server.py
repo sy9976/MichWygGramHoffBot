@@ -26,7 +26,6 @@ POINTS_FILE = '/home/pi/Desktop/MichWygGramHoffBot/log/points_' + time.strftime(
 PWM_PIN_M1 = 7 #11
 DIR_PIN1_M1 = 21 # 10
 DIR_PIN2_M1 = 19 # 9
-#PWM_PIN_M2 = 
 DIR_PIN1_M2 = 15 
 DIR_PIN2_M2 = 13
 
@@ -54,9 +53,8 @@ lastX = 0
 lastY = 0
 distance = 0
 
-#---------------------------GLOBAL VARIABLES-------------------------
 last_read_time = 0.0
-last_x_angle = 0.0#Filtered angles
+last_x_angle = 0.0
 last_y_angle = 0.0
 
 mag_scale = 0.92
@@ -66,7 +64,6 @@ pitch = 0.0
 roll = 0.0
 yaw = 0.0
 
-# Power management registers
 power_mgmt_1 = 0x6b
 power_mgmt_2 = 0x6c
 
@@ -152,83 +149,8 @@ def read_compensated_angle(pitch, roll):
 #----------------------------------------------
 
 def gyro_thread():
-  
-  #--------------------------------------------------------------------------
-
   imu_controller = imu.OLDIMU(bus, 0x68, 0x1e, "OLDIMU")
-
-  #while(1):
-  #  (pitch, roll, yaw) = imu_controller.read_pitch_roll_yaw()
-  #  result = "%.2f %.2f %.2f" % (pitch, roll, yaw)
-  #  print result
-  #--------------------------------------------------------------------------
-
-
-
-  #bus = smbus.SMBus(1) # or bus = smbus.SMBus(1) for Revision 2 boards
-  global mag_scale
-  #INIT MAG
-  write_byte(MAG_ADDR, 0, 0b01110000)
-  write_byte(MAG_ADDR, 1, 0b00100000)
-  write_byte(MAG_ADDR, 2, 0b00000000)
-
-  #INIT GYRO
-  write_byte(GYRO_ADDR, power_mgmt_1, 0)
-  setup()
-  base_x_gyro = -436.9145
-  base_y_gyro = -426.9437
-  base_z_gyro = -277.1055
-
-  accum_x = 0.0
-  accum_y = 0.0
-  accum_z = 0.0
   while 1:
-    '''gyro_xout = read_word_2c(GYRO_ADDR, 0x43)
-    gyro_yout = read_word_2c(GYRO_ADDR, 0x45)
-    gyro_zout = read_word_2c(GYRO_ADDR, 0x47)
-
-    accel_x = read_word_2c(GYRO_ADDR, 0x3b)
-    accel_y = read_word_2c(GYRO_ADDR, 0x3d)
-    accel_z = read_word_2c(GYRO_ADDR, 0x3f)
-
-    t_now = millis()
-    FS_SEL = 131.0
-    
-    gyro_x = (gyro_xout - base_x_gyro)/FS_SEL
-    gyro_y = (gyro_yout - base_y_gyro)/FS_SEL
-    gyro_z = (gyro_zout - base_z_gyro)/FS_SEL
-    
-    #Get angle values fom accelerometer
-    RADIANS_TO_DEGREES = 180/3.14159
-    accel_angle_x = get_x_rotation(accel_x, accel_y, accel_z)
-    accel_angle_y = get_y_rotation(accel_x, accel_y, accel_z)
-
-    #Compute the (filtered) gyro angles
-    dt = (t_now - last_read_time)/1000.0
-
-    tx = gyro_x*dt
-    ty = gyro_y*dt
-
-    if(tx<0.009 and tx>-0.009):
-      tx = 0.0
-    if(ty<0.009 and ty>-0.009):
-      ty = 0.0        
-                                
-    gyro_angle_x = tx + last_x_angle
-    gyro_angle_y = ty + last_y_angle 
-      
-    alpha = 0.96
-    angle_x = alpha*tx + (1.0 - alpha)*accel_angle_x
-    angle_y = alpha*ty + (1.0 - alpha)*accel_angle_y
-
-    set_last_time(t_now)
-    set_last_angles(angle_x, angle_y)
-    
-    #print "X\tY\tZ"
-  #  print str(angle_x)+"\t"+  str(angle_y)
-    global g_bearing
-    global unfiltered_bearing
-    #(g_bearing, unfiltered_bearing) = read_compensated_angle(angle_x, angle_y)'''
     global x_off
     global y_off
     global z_off
@@ -249,16 +171,6 @@ def gyro_thread():
     #print g_bearing, unfiltered_bearing
     time.sleep(0.005)
 
-def points_thread(client_sock):
-  x = 0
-  y = 0
-  while not sigterm_flag and connected:
-    if pointsOn:
-      client_sock.send("point " + str(x) + " " + str(y))
-    x += 0.3
-    y += 0.5
-    time.sleep(1.5)
-  print "points_thread end"
 #---------- wheels ----------
 def wheels_thread(pin, filename, client_sock):
   prevState = GPIO.input(pin)
@@ -268,13 +180,8 @@ def wheels_thread(pin, filename, client_sock):
   lastX = 0
   lastY = 0
   scale = 0.92
-  #while True:
   while not sigterm_flag and connected:
     actState = GPIO.input(pin)
-    #if actState:
-    #  print "1"
-    #else:
-    #  print "0"
     global x_off
     global y_off
     global z_off
@@ -302,8 +209,6 @@ def wheels_thread(pin, filename, client_sock):
           print "yaw ", yaw
           x = math.sin(yaw) * WHEELS_PERIMETER + lastX
           y = math.cos(yaw) * WHEELS_PERIMETER + lastY
-          #x = math.sin(bearing) * WHEELS_PERIMETER + lastX
-          #y = math.cos(bearing) * WHEELS_PERIMETER + lastY
           print "Bearing: ", math.degrees(bearing)
           print "X: " + str(x) + " Y: " + str(y)
           if pointsOn:
@@ -328,9 +233,7 @@ def sigint_handler(_signo, _stack_frame):
 
 #---------- gps ----------
 def gps_thread():
-  #while True:
-  while (not sigterm_flag): #and connected):
-    #print "gps thread"
+  while (not sigterm_flag): 
     report = session.next()
     if report['class'] == 'TPV':
       if hasattr(report, 'cTime'):
@@ -338,50 +241,36 @@ def gps_thread():
         global cTime
         cTime = report.cTime
       if hasattr(report, 'lat'):
-        print "\tszerokosc:\t",report.lat
+        print "szerokosc: ",report.lat
         global lat
         lat = report.lat
       if hasattr(report, 'lon'):
-        print "\tdlugosc:\t",report.lon
+        print "dlugosc: ",report.lon
         global lon
         lon = report.lon
-      if hasattr(report, 'speed'):
-        print "\tszybkosc:\t",report.speed
     if report['class'] == 'SKY':
-      if hasattr(report, 'satellites'):
-         print "\tsatelity:\t", len(report.satellites),
-         satsUsed = 0
-         for st in report.satellites:
-           if hasattr(st, 'used'):
-              if st.used==True:satsUsed+=1
-         print "(uzywane: ", satsUsed, ")"
       if hasattr(report, 'hdop'):
-         print "\thdop:\t\t", report.hdop
+         print "hdop: ", report.hdop
 #--------------- magnetometer ----------------------#
 def magnetometer_thread(client_sock):
   firstSample = True
   maxX = 0
   maxY = 0
+  maxZ = 0
   minX = 0
   minY = 0
+  minZ = 0
   global calibration
   global x_off
   global y_off
+  global z_off
   while(calibration):
-    #------------------------------------------------
-    #------------------------------------------------
-
     x = read_word_2c(MAG_ADDR, 3) * 0.92
     y = read_word_2c(MAG_ADDR, 7) * 0.92
     z = read_word_2c(MAG_ADDR, 5) * 0.92
-    #print (str(x) + " " +  str(y) + " " + str(z))
-  #  print(hmc5883l)
-    
-    #x -= 216.48
-    #y -= 509.28
-    #x = x * 1.12
     x_cal = x - x_off
     y_cal = y - y_off
+    z_cal = z - z_off
     bearing  = math.atan2(y_cal, x_cal)
     if (bearing < 0):
         bearing += 2 * math.pi
@@ -391,30 +280,28 @@ def magnetometer_thread(client_sock):
       maxX = x_cal
       minY = y_cal
       maxY = y_cal
+      minZ = z_cal
+      maxZ = z_cal
       firstSample = False
     else:
       minX = min(minX, x_cal)
       maxX = max(maxX, x_cal)
       minY = min(minY, y_cal)
       maxY = max(maxY, y_cal)
-    #client_sock.send("point " + str(x_cal) + " " + str(y_cal))
-    bearing2  = math.atan2(y_off, x_off)
-    if (bearing2 < 0):
-        bearing2 += 2 * math.pi
-
-    #print("Bearing2: "  + str(math.degrees(bearing2)))
+      minZ = min(minZ, z_cal)
+      maxZ = max(maxZ, z_cal)
     time.sleep(0.5)
     fsock = open("/home/pi/Desktop/punkty.txt", 'a')
-    fsock.write(str(x_cal) + " " +  str(y_cal) + " " + str(z) + "\n")
+    fsock.write(str(x_cal) + " " +  str(y_cal) + " " + str(z_cal) + "\n")
     fsock.close()
   client_sock.send("minX " + str(minX) + " maxX " + str(maxX) + " minY " + str(minY) + " maxY " + str(maxY))
   x_off += (maxX + minX)/2
   y_off += (maxY + minY)/2
+  z_off += (maxZ + minZ)/2
   client_sock.send("x_off " + str(x_off) + " y_off " + str(y_off))
 #---------- pwm ----------------
 
 def change_pwm(motors, newLevel):
-	#print "start change_pwm, newLevel: " + str(newLevel) + " currentLevel: " + str(currentLevel)
   dir = 0
   diff = abs(newLevel) - abs(currentLevel)
   if diff > 0:
@@ -426,17 +313,15 @@ def change_pwm(motors, newLevel):
     global pwmValue
     pwmValue += PWM_STEP * dir
     motors.ChangeDutyCycle(pwmValue)
-    print "pwmValue " + str(pwmValue)
     time.sleep(0.1)
     print "change_pwm " + str(pwmValue)
 
 def stop_pwm(motors):
-	GPIO.output(DIR_PIN1_M1, False)#  GPIO.output(DIR_PIN2_M1, False)
+	GPIO.output(DIR_PIN1_M1, False)
 	GPIO.output(DIR_PIN2_M1, False)
 	motors.ChangeDutyCycle(START_PWM)
 	global pwmValue
 	pwmValue = START_PWM
-	#print "STOP PWM"
 	
 def set_motors(mainMotors, newLevel, direction):
 	global currentLevel
@@ -446,10 +331,8 @@ def set_motors(mainMotors, newLevel, direction):
 		if newLevel == 0:	#stop
 			stop_pwm(mainMotors)
 		elif dir > 0:	#jedz w tym samym kierunku
-			#print "dir > 0"
 			change_pwm(mainMotors, newLevel)
 		else: #jedz w przeciwnym kierunku #dir < 0 albo dir = 0 co oznacza, ze poprzednio byl stop
-			#print "dir < 0 lub dir = 0"
 			stop_pwm(mainMotors) #najpierw stop
 			if newLevel > 0:
 				GPIO.output(DIR_PIN1_M1, False)
@@ -473,6 +356,19 @@ def set_motors(mainMotors, newLevel, direction):
 		GPIO.output(DIR_PIN1_M2, False)
 		GPIO.output(DIR_PIN2_M2, False)
 #---------- bluetooth ----------
+def gauss_area(points):
+  area = 0.0
+  for i in range(len(points)):
+    if i == 0:
+      area += (points[i+1][0] - points[len(points)-1][0]) * points[i][1]
+    elif i < len(points) - 1:
+      area += (points[i+1][0] - points[i-1][0]) * points[i][1]
+    elif i == len(points) - 1:
+      area += (points[0][0] - points[i-1][0]) * points[i][1]
+  area /= 2
+  print "AREA: ", abs(area)
+  return abs(area)
+
 def main_thread(client_sock, mainMotors):
   try:
     #while True:
@@ -494,7 +390,6 @@ def main_thread(client_sock, mainMotors):
         pointsOn = True
         print "points on"
       elif data == "points off": 
-        #global pointsOn
         pointsOn = False
         print "points off"
       elif data == "calib": 
@@ -503,13 +398,18 @@ def main_thread(client_sock, mainMotors):
         start_new_thread(magnetometer_thread, (client_sock, ))
         print "calibration on"
       elif data == "talib": 
-        #global calibration
         calibration = False
         print "calibration off"
       elif data == "area": 
         global points
         polygon = Polygon(points)
-        area = polygon.area
+        if polygon.is_valid:
+          areaP = polygon.area
+          print "areaP: ", areaP
+          area = gauss_area(points)
+        else:
+          area = 0.0
+          client_sock.send("Nieprawidlowe pole! ")
         client_sock.send("area " + str(area))
         print "area " + str(area)
       elif data == "dir": 
@@ -519,7 +419,6 @@ def main_thread(client_sock, mainMotors):
         global pitch
         global roll
         global yaw
-        #client_sock.send("dir" + str(g_bearing) + " " + str(unfiltered_bearing))
         client_sock.send("dir " + str(math.degrees(pitch)) + " " + str(math.degrees(roll)) + " " + str(math.degrees(yaw)))
       elif data == "distance":
         global distance
@@ -558,7 +457,6 @@ GPIO.setup(WHEELS_PIN2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(PWM_PIN_M1, GPIO.OUT)
 GPIO.setup(DIR_PIN1_M1, GPIO.OUT)
 GPIO.setup(DIR_PIN2_M1, GPIO.OUT)
-#GPIO.setup(PWM_PIN_M2, GPIO.OUT)
 GPIO.setup(DIR_PIN1_M2, GPIO.OUT)
 GPIO.setup(DIR_PIN2_M2, GPIO.OUT)
 
@@ -570,7 +468,6 @@ GPIO.output(DIR_PIN2_M2, False)
 
 mainMotors = GPIO.PWM(PWM_PIN_M1,PWM_FREQUENCY)
 mainMotors.start(START_PWM)
-#gps_configure()
 #--------- compass ---------
 try:
   bus = smbus.SMBus(1)
@@ -586,7 +483,6 @@ except IOError:
 start_new_thread(gps_thread, ())
 start_new_thread(gyro_thread, ())
 print "START 2 THREADS"
-#while True:
 while not sigterm_flag:
   server_sock=BluetoothSocket( RFCOMM )
   server_sock.bind(("",PORT_ANY))
@@ -599,7 +495,6 @@ while not sigterm_flag:
       service_id = uuid,
       service_classes = [ uuid, SERIAL_PORT_CLASS ],
       profiles = [ SERIAL_PORT_PROFILE ], 
-      #protocols = [ OBEX_UUID ] 
       )
 
   print "Waiting for connection on RFCOMM channel %d" % port
@@ -613,7 +508,6 @@ while not sigterm_flag:
   else:
     start_new_thread(wheels_thread, (WHEELS_PIN1, WHEELS_FILE1, client_sock, ))
     start_new_thread(wheels_thread, (WHEELS_PIN2, WHEELS_FILE2, client_sock, ))
-    #start_new_thread(magnetometer_thread, (client_sock, ))
   while connected:
     time.sleep(1)
   print "off ok"
